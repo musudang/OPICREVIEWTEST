@@ -1,0 +1,19 @@
+{
+  "context": {
+    "fileName": ["AGENTS.md", "GEMINI.md"]
+  },
+  "hooks": {
+    "BeforeAgent": [
+      {
+        "hooks": [
+          {
+            "name": "log-user-prompt",
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .gemini/hooks/log_user_input.ps1",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  }
+}
