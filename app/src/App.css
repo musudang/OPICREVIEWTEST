@@ -1,0 +1,190 @@
+.page {
+  padding: 24px 4px 60px;
+}
+
+.hint {
+  color: var(--text);
+  font-size: 14px;
+  margin: 8px 0 16px;
+}
+
+.disclaimer {
+  font-size: 13px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 12px 0;
+}
+
+section {
+  margin: 24px 0;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip input {
+  display: none;
+}
+
+.chip-on {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--text-h);
+}
+
+button {
+  font: inherit;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  border-radius: 8px;
+  padding: 10px 18px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+button.recording {
+  background: #e5484d;
+  border-color: #e5484d;
+  color: white;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.session-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.badge {
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: var(--text);
+}
+
+.prompt-text {
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--text-h);
+  margin: 24px 0;
+}
+
+.mode-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.mode-card {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.mode-card:hover {
+  border-color: var(--accent-border);
+}
+
+.mode-card-disabled {
+  opacity: 0.5;
+}
+
+.attempt-list {
+  list-style: none;
+  padding: 0;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.attempt-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.text-input {
+  font: inherit;
+  width: 100%;
+  max-width: 320px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: var(--bg);
+  color: var(--text-h);
+  box-sizing: border-box;
+}
+
+.score-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.score-band {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-h);
+  margin-bottom: 16px;
+}
+
+.score-metrics {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.score-metrics > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.metric-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-h);
+}
