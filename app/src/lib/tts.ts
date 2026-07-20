@@ -5,21 +5,40 @@
 const SAVED_VOICE_KEY = 'opic:tts-voice-uri'
 
 let currentUtterance: SpeechSynthesisUtterance | null = null
-let voicesPromise: Promise<SpeechSynthesisVoice[]> | null = null
+let voicesReady = false
+let voicesReadyPromise: Promise<void> | null = null
 
-function loadVoices(): Promise<SpeechSynthesisVoice[]> {
-  if (voicesPromise) return voicesPromise
-  voicesPromise = new Promise((resolve) => {
-    const existing = window.speechSynthesis.getVoices()
-    if (existing.length > 0) {
-      resolve(existing)
-      return
+// getVoices()가 처음 채워질 때까지만 기다리고, 그 이후로는 매번 새로 getVoices()를 호출한다.
+// (한 번 캐시해두면 브라우저가 나중에 보이스 목록을 갱신했을 때 voiceURI가 더 이상 일치하지 않아
+//  "미리듣기가 항상 같은 보이스로만 재생되는" 문제가 생길 수 있다.)
+function waitUntilVoicesReady(): Promise<void> {
+  if (voicesReady) return Promise.resolve()
+  if (voicesReadyPromise) return voicesReadyPromise
+  voicesReadyPromise = new Promise((resolve) => {
+    const check = () => {
+      if (window.speechSynthesis.getVoices().length > 0) {
+        voicesReady = true
+        resolve()
+        return true
+      }
+      return false
     }
-    window.speechSynthesis.onvoiceschanged = () => resolve(window.speechSynthesis.getVoices())
+    if (check()) return
+    window.speechSynthesis.onvoiceschanged = () => {
+      check()
+    }
     // 일부 브라우저는 onvoiceschanged를 안정적으로 쏘지 않으므로 짧은 타임아웃으로 보강한다.
-    setTimeout(() => resolve(window.speechSynthesis.getVoices()), 800)
+    setTimeout(() => {
+      voicesReady = true
+      resolve()
+    }, 800)
   })
-  return voicesPromise
+  return voicesReadyPromise
+}
+
+async function loadVoices(): Promise<SpeechSynthesisVoice[]> {
+  await waitUntilVoicesReady()
+  return window.speechSynthesis.getVoices()
 }
 
 function isMultilingualVoice(v: SpeechSynthesisVoice): boolean {
@@ -138,17 +157,26 @@ async function speakWithVoiceLookup(text: string, preferredVoiceURI: string | nu
     return { ok: false, reason: 'no-english-voice' }
   }
 
-  window.speechSynthesis.cancel()
-  const utterance = new SpeechSynthesisUtterance(text)
-  utterance.voice = voice
-  utterance.lang = voice.lang
-  utterance.rate = 0.95
-  currentUtterance = utterance
-
   return new Promise((resolve) => {
-    utterance.onend = () => resolve({ ok: true })
-    utterance.onerror = () => resolve({ ok: false, reason: 'unsupported' })
-    window.speechSynthesis.speak(utterance)
+    const doSpeak = () => {
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.voice = voice
+      utterance.lang = voice.lang
+      utterance.rate = 0.95
+      currentUtterance = utterance
+      utterance.onend = () => resolve({ ok: true })
+      utterance.onerror = () => resolve({ ok: false, reason: 'unsupported' })
+      window.speechSynthesis.speak(utterance)
+    }
+
+    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+      window.speechSynthesis.cancel()
+      // Chrome/Edge는 cancel() 직후 바로 speak()를 호출하면 새 voice가 무시되고
+      // 이전에 재생 중이던 보이스로 다시 재생되는 경우가 있어 한 틱 쉬었다가 호출한다.
+      setTimeout(doSpeak, 50)
+    } else {
+      doSpeak()
+    }
   })
 }
 
@@ -163,6 +191,8 @@ export function previewVoice(voiceURI: string, sampleText = 'Hello, this is a sa
 }
 
 export function stopSpeaking() {
-  window.speechSynthesis?.cancel()
-  currentUtterance = null
+  if (currentUtterance) {
+    window.speechSynthesis?.cancel()
+    currentUtterance = null
+  }
 }
