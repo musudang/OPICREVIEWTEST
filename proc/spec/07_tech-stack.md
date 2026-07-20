@@ -18,7 +18,14 @@
 | LLM 제공자 | Anthropic Claude API (제안) / 기타 | API 키 발급·비용 확인 필요, Express 백엔드에서만 사용 |
 | STT 방식 | 브라우저 Web Speech API(무료, 정확도 낮을 수 있음) / 외부 STT API(비용 발생, 정확도 높음) | Phase 4 착수 시 결정 |
 | 문제 음성 소스 | TTS(자동 생성) / 자체 녹음 | 초기엔 TTS로 시작 검토 |
-| 배포 환경 | 로컬 개발 우선, 배포처(Vercel/자체 서버 등) 미정 | 실제 배포 필요 시점에 논의 |
+| 백엔드 배포 | `svr/`는 아직 미배포(헬스체크 스텁뿐) | LLM 프록시 실사용 시점에 배포처 논의 |
+
+## 배포 (프론트엔드 — Vercel)
+
+- Vercel 프로젝트의 **Root Directory가 `app`으로 설정**되어 있음 (대시보드 설정, 리포 루트에는 `package.json`이 없음)
+- 설정 파일은 `app/vercel.json`에 둔다 (리포 루트에 두면 Root Directory와 경로가 중복되어 빌드가 깨짐 — 2026-07-20 실제로 겪은 장애)
+- `app/vercel.json`에는 SPA 라우팅용 rewrite만 둔다: React Router(BrowserRouter)를 쓰므로 `/practice/setup` 같은 하위 경로 직접 접속·새로고침 시 404가 나지 않도록 모든 경로를 `/index.html`로 rewrite
+- 빌드/설치 명령은 Vercel 기본 Vite 프리셋(zero-config)에 맡긴다 — 별도 `buildCommand`/`installCommand`/`outputDirectory` 지정 불필요
 
 ## 디렉토리 배치 (init-project 웹앱 컨벤션 기준)
 
