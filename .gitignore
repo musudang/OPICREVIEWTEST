@@ -27,9 +27,9 @@ dist-ssr
 .omx/
 .omg/
 
-input/
-output/
-data/
+/input/
+/output/
+/data/
 **/__pycache__/
 proc/archive/prompts/
 *.pyc
