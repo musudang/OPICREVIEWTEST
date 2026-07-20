@@ -188,3 +188,39 @@ button.recording {
   font-weight: 600;
   color: var(--text-h);
 }
+
+.voice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 420px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  margin: 16px 0;
+}
+
+.voice-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.voice-row:hover {
+  background: var(--accent-bg);
+}
+
+.voice-row-selected {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+}
+
+.voice-label {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-h);
+}

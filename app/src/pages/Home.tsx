@@ -29,6 +29,13 @@ export default function Home() {
       </section>
 
       <section>
+        <Link className="mode-card" to="/settings/voice">
+          <h2>보이스 설정</h2>
+          <p>문제 듣기에 사용할 영어 음성을 미리듣고 골라서 저장합니다.</p>
+        </Link>
+      </section>
+
+      <section>
         <h2>최근 연습 기록</h2>
         {attempts.length === 0 ? (
           <p className="hint">아직 기록이 없습니다.</p>
