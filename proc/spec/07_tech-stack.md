@@ -22,10 +22,9 @@
 
 ## 배포 (프론트엔드 — Vercel)
 
-- Vercel 프로젝트의 **Root Directory가 `app`으로 설정**되어 있음 (대시보드 설정, 리포 루트에는 `package.json`이 없음)
-- 설정 파일은 `app/vercel.json`에 둔다 (리포 루트에 두면 Root Directory와 경로가 중복되어 빌드가 깨짐 — 2026-07-20 실제로 겪은 장애)
-- `app/vercel.json`에는 SPA 라우팅용 rewrite만 둔다: React Router(BrowserRouter)를 쓰므로 `/practice/setup` 같은 하위 경로 직접 접속·새로고침 시 404가 나지 않도록 모든 경로를 `/index.html`로 rewrite
-- 빌드/설치 명령은 Vercel 기본 Vite 프리셋(zero-config)에 맡긴다 — 별도 `buildCommand`/`installCommand`/`outputDirectory` 지정 불필요
+- Vercel 프로젝트 **Root Directory는 `/`(리포 루트, 비어있음)**, **Framework Preset은 "Other"**로 설정되어 있음(대시보드 확인, 2026-07-20). Root Directory를 `app`으로 오인해 `app/vercel.json`에 설정을 둔 적이 있었는데, 그러면 Vercel이 리포 루트의 `vercel.json`을 못 찾아 빌드 설정이 전혀 적용되지 않는다(빌드가 수 초 만에 "성공"으로 뜨지만 실제로는 아무것도 빌드하지 않아 사이트 전체가 404) — **`vercel.json`은 반드시 리포 루트에 둔다.**
+- 리포 루트 `vercel.json`에서 `installCommand`/`buildCommand`는 `--prefix app`으로 `app/`을 대상 지정하고, `outputDirectory`는 `app/dist`로 지정한다(Root Directory가 `/`이므로 경로는 항상 리포 루트 기준).
+- SPA 라우팅용 rewrite도 같은 `vercel.json`에 둔다: React Router(BrowserRouter)를 쓰므로 `/practice/setup` 같은 하위 경로 직접 접속·새로고침 시 404가 나지 않도록 모든 경로를 `/index.html`로 rewrite.
 
 ## 디렉토리 배치 (init-project 웹앱 컨벤션 기준)
 
