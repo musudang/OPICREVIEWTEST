@@ -8,6 +8,7 @@ import { createAttempt, saveResponse, updateAttemptStatus, listResponsesByAttemp
 import { shuffle } from '../lib/shuffle'
 import { computeRuleBasedScore, type RuleBasedScore } from '../lib/scoring'
 import { startAmbientNoise, stopAmbientNoise, saveAmbientNoisePref } from '../lib/ambientNoise'
+import YouTubeAmbientPopup from '../components/YouTubeAmbientPopup'
 
 interface SetupState {
   userName?: string
@@ -15,6 +16,7 @@ interface SetupState {
   types?: QuestionType[]
   questionCount?: number
   ambientNoise?: boolean
+  youtubePopup?: boolean
 }
 
 export default function PracticeSession() {
@@ -26,6 +28,7 @@ export default function PracticeSession() {
     types = [],
     questionCount = 10,
     ambientNoise: initialAmbientNoise = false,
+    youtubePopup: initialYoutubePopup = false,
   } = (location.state as SetupState) ?? {}
 
   const questions = useMemo(() => {
@@ -45,6 +48,7 @@ export default function PracticeSession() {
   const [finished, setFinished] = useState(false)
   const [score, setScore] = useState<RuleBasedScore | null>(null)
   const [ambientNoiseOn, setAmbientNoiseOn] = useState(initialAmbientNoise)
+  const [youtubePopupOn, setYoutubePopupOn] = useState(initialYoutubePopup)
   const attemptRef = useRef<Attempt | null>(null)
   const recorder = useRecorder()
 
@@ -81,6 +85,10 @@ export default function PracticeSession() {
       saveAmbientNoisePref(next)
       return next
     })
+  }
+
+  function toggleYoutubePopup() {
+    setYoutubePopupOn((on) => !on)
   }
 
   async function handlePlay() {
@@ -141,6 +149,7 @@ export default function PracticeSession() {
   async function finishSession() {
     if (!attemptRef.current) return
     stopAmbientNoise()
+    setYoutubePopupOn(false)
     await updateAttemptStatus(attemptRef.current.id, 'completed')
     const responses = await listResponsesByAttempt(attemptRef.current.id)
     setScore(computeRuleBasedScore(responses))
@@ -199,7 +208,16 @@ export default function PracticeSession() {
         >
           배경 소음 {ambientNoiseOn ? 'ON' : 'OFF'}
         </button>
+        <button
+          type="button"
+          className={`badge-toggle ${youtubePopupOn ? 'badge-toggle-on' : ''}`}
+          onClick={toggleYoutubePopup}
+        >
+          영상 팝업 {youtubePopupOn ? 'ON' : 'OFF'}
+        </button>
       </div>
+
+      {youtubePopupOn && <YouTubeAmbientPopup onClose={() => setYoutubePopupOn(false)} />}
 
       <p className="prompt-text">{current.promptText}</p>
 

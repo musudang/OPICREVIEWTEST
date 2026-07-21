@@ -28,10 +28,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section>
+      <section className="mode-cards">
         <Link className="mode-card" to="/settings/voice">
           <h2>보이스 설정</h2>
           <p>문제 듣기에 사용할 영어 음성을 미리듣고 골라서 저장합니다.</p>
+        </Link>
+        <Link className="mode-card" to="/questions">
+          <h2>전체 문제 목록</h2>
+          <p>문제은행에 등록된 모든 문제를 주제별로 쭉 볼 수 있습니다.</p>
         </Link>
       </section>
 

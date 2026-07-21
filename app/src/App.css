@@ -241,3 +241,56 @@ button.recording {
   font-size: 14px;
   color: var(--text-h);
 }
+
+.yt-popup {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 50;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.yt-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  font-size: 12px;
+  color: var(--text);
+  background: var(--code-bg);
+}
+
+.yt-popup-close {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.yt-popup iframe {
+  display: block;
+}
+
+.question-list-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+}
+
+.question-list-meta {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.question-list-text {
+  font-size: 15px;
+  color: var(--text-h);
+}

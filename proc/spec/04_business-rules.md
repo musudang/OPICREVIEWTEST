@@ -34,6 +34,13 @@
 - `/practice/setup`에서 기본값을 켜고 끌 수 있고(`localStorage: opic:ambient-noise-enabled`), `/practice/session` 중에도 실시간으로 토글 가능하다.
 - 세션 종료·페이지 이탈 시 반드시 정지한다(메모리 누수·불필요한 오디오 노드 방지).
 
+### 유튜브 배경 영상 팝업 (`app/src/components/YouTubeAmbientPopup.tsx`)
+
+- 유저가 지정한 유튜브 영상(사람 말소리 예시)을 화면 우측 하단에 작은 팝업으로 띄운다.
+- **영상을 다운로드하거나 오디오를 추출하지 않는다** — 유튜브 공식 embed(iframe, `youtube.com/embed/{videoId}`)로 유튜브 서버에서 그대로 스트리밍한다. 저작권자의 재생 권리를 그대로 따르므로 재배포·복제 문제가 없다.
+- `/practice/setup`에서 기본값을 켤 수 있고, `/practice/session` 중 실시간 on/off 및 팝업 자체의 닫기(✕) 버튼으로도 끌 수 있다.
+- 합성 배경 소음과 별개 기능으로, 동시에 켜거나 하나만 켤 수 있다.
+
 ## 채점/피드백 로직
 
 ### 즉시 규칙기반 점수 (자유연습 모드, STT/LLM 불필요 — 현재 구현됨)

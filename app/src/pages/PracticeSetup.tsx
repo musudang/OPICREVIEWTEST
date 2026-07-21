@@ -13,6 +13,7 @@ export default function PracticeSetup() {
   const [types, setTypes] = useState<QuestionType[]>([])
   const [questionCount, setQuestionCount] = useState(10)
   const [ambientNoise, setAmbientNoise] = useState(getSavedAmbientNoisePref)
+  const [youtubePopup, setYoutubePopup] = useState(false)
 
   const categoryOptions = useMemo(
     () => Array.from(new Set(QUESTIONS.map((q) => q.category))),
@@ -42,7 +43,7 @@ export default function PracticeSetup() {
 
   function handleStart() {
     navigate('/practice/session', {
-      state: { userName: userName.trim(), categories, types, questionCount, ambientNoise },
+      state: { userName: userName.trim(), categories, types, questionCount, ambientNoise, youtubePopup },
     })
   }
 
@@ -90,6 +91,17 @@ export default function PracticeSetup() {
             onChange={(e) => handleAmbientNoiseChange(e.target.checked)}
           />
           배경 소음 켜기
+        </label>
+        <p className="hint">
+          또는 화면 구석에 작은 유튜브 영상 팝업을 띄워서 재생할 수도 있습니다.
+        </p>
+        <label className={`chip ${youtubePopup ? 'chip-on' : ''}`}>
+          <input
+            type="checkbox"
+            checked={youtubePopup}
+            onChange={(e) => setYoutubePopup(e.target.checked)}
+          />
+          유튜브 배경 영상 팝업 켜기
         </label>
       </section>
 

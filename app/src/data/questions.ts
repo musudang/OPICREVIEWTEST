@@ -418,6 +418,30 @@ const UNEXPECTED_ADVANCED: Question[] = [
     promptText: 'How has dining or food culture changed in your country recently, for example because of delivery apps?' },
 ]
 
+// --- 돌발 질문: 서베이 항목에 없는 주제 (실제 시험에서 설문 선택과 무관하게 나올 수 있는 일반 돌발 주제) ---
+const UNEXPECTED_NON_SURVEY: Question[] = [
+  { id: 'unexpected-online-shopping', category: 'unexpected-online-shopping', type: 'unexpected', difficulty: [3, 4, 5, 6],
+    promptText: 'How do you think online shopping has changed the way people shop compared to traditional stores?' },
+  { id: 'unexpected-banking', category: 'unexpected-banking', type: 'unexpected', difficulty: [3, 4, 5, 6],
+    promptText: 'How do people in your country usually handle their banking, such as using banking apps versus visiting a bank in person?' },
+  { id: 'unexpected-neighbors', category: 'unexpected-neighbors', type: 'unexpected', difficulty: [3, 4, 5, 6],
+    promptText: 'Describe the relationship between neighbors in your area. Has it changed over time?' },
+  { id: 'unexpected-delivery-service', category: 'unexpected-delivery-service', type: 'unexpected', difficulty: [3, 4, 5, 6],
+    promptText: 'How have delivery services changed the way people get food or products in your country?' },
+  { id: 'unexpected-online-learning', category: 'unexpected-online-learning', type: 'unexpected', difficulty: [3, 4, 5, 6],
+    promptText: 'How has online learning or e-learning changed education in your country?' },
+  { id: 'unexpected-healthcare', category: 'unexpected-healthcare', type: 'unexpected', difficulty: [5, 6],
+    promptText: 'Describe the healthcare system in your country. What do you think are its strengths and weaknesses?' },
+  { id: 'unexpected-safety', category: 'unexpected-safety', type: 'unexpected', difficulty: [5, 6],
+    promptText: 'What do people in your country usually do to stay safe, and are there any safety concerns you have?' },
+  { id: 'unexpected-space-science', category: 'unexpected-space-science', type: 'unexpected', difficulty: [5, 6],
+    promptText: 'What recent developments in science or space technology have you heard about, and what do you think about them?' },
+  { id: 'unexpected-sports-events', category: 'unexpected-sports-events', type: 'unexpected', difficulty: [5, 6],
+    promptText: 'Describe a major sports event, such as the Olympics, that people in your country followed closely.' },
+  { id: 'unexpected-pandemic-changes', category: 'unexpected-pandemic-changes', type: 'unexpected', difficulty: [5, 6],
+    promptText: 'How has daily life in your country changed since the COVID-19 pandemic?' },
+]
+
 // --- 어드밴스 ---
 const ADVANCE_QUESTIONS: Question[] = [
   { id: 'advance-law', category: 'advance', type: 'advance', difficulty: [5, 6],
@@ -443,6 +467,7 @@ export const QUESTIONS: Question[] = [
   ...ROLEPLAY_QUESTIONS,
   ...UNEXPECTED_BASIC,
   ...UNEXPECTED_ADVANCED,
+  ...UNEXPECTED_NON_SURVEY,
   ...ADVANCE_QUESTIONS,
   ...INTRO_QUESTIONS,
 ]
@@ -469,6 +494,16 @@ const UNEXPECTED_LABELS: Record<string, string> = {
   'unexpected-tradition': '돌발 · 전통문화',
   'unexpected-fashion-trends': '돌발 · 패션 트렌드',
   'unexpected-food-culture': '돌발 · 음식문화',
+  'unexpected-online-shopping': '돌발 · 온라인쇼핑',
+  'unexpected-banking': '돌발 · 은행/금융',
+  'unexpected-neighbors': '돌발 · 이웃',
+  'unexpected-delivery-service': '돌발 · 배달서비스',
+  'unexpected-online-learning': '돌발 · 온라인학습',
+  'unexpected-healthcare': '돌발 · 의료시스템',
+  'unexpected-safety': '돌발 · 안전',
+  'unexpected-space-science': '돌발 · 과학/우주',
+  'unexpected-sports-events': '돌발 · 스포츠이벤트',
+  'unexpected-pandemic-changes': '돌발 · 팬데믹 변화',
 }
 
 export const CATEGORY_LABELS: Record<string, string> = {
