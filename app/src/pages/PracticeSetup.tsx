@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QUESTIONS, CATEGORY_LABELS, TYPE_LABELS } from '../data/questions'
 import type { QuestionType } from '../types'
+import { getSavedAmbientNoisePref, saveAmbientNoisePref } from '../lib/ambientNoise'
 
 const QUESTION_COUNT_OPTIONS = [5, 10]
 
@@ -11,6 +12,7 @@ export default function PracticeSetup() {
   const [categories, setCategories] = useState<string[]>([])
   const [types, setTypes] = useState<QuestionType[]>([])
   const [questionCount, setQuestionCount] = useState(10)
+  const [ambientNoise, setAmbientNoise] = useState(getSavedAmbientNoisePref)
 
   const categoryOptions = useMemo(
     () => Array.from(new Set(QUESTIONS.map((q) => q.category))),
@@ -33,9 +35,14 @@ export default function PracticeSetup() {
     setter(list.includes(value) ? list.filter((v) => v !== value) : [...list, value])
   }
 
+  function handleAmbientNoiseChange(checked: boolean) {
+    setAmbientNoise(checked)
+    saveAmbientNoisePref(checked)
+  }
+
   function handleStart() {
     navigate('/practice/session', {
-      state: { userName: userName.trim(), categories, types, questionCount },
+      state: { userName: userName.trim(), categories, types, questionCount, ambientNoise },
     })
   }
 
@@ -69,6 +76,21 @@ export default function PracticeSetup() {
             </label>
           ))}
         </div>
+      </section>
+
+      <section>
+        <h2>배경 소음</h2>
+        <p className="hint">
+          실제 시험장의 사람 말소리 웅성거림을 흉내 낸 소음을 틀어놓고 연습할 수 있습니다. (실제 녹음이 아닌 합성음)
+        </p>
+        <label className={`chip ${ambientNoise ? 'chip-on' : ''}`}>
+          <input
+            type="checkbox"
+            checked={ambientNoise}
+            onChange={(e) => handleAmbientNoiseChange(e.target.checked)}
+          />
+          배경 소음 켜기
+        </label>
       </section>
 
       <section>

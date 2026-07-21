@@ -120,6 +120,54 @@ const COMBO_TOPICS: { topic: string; label: string; parts: [QuestionType, string
     ],
   },
   {
+    topic: 'dining-out', label: '외식/식당',
+    parts: [
+      ['combo-desc', 'Describe a restaurant that you often go to.'],
+      ['combo-habit', 'What do you usually do when you go out to eat, from choosing a restaurant to ordering?'],
+      ['combo-exp', 'Tell me about a memorable experience you had at a restaurant.'],
+    ],
+  },
+  {
+    topic: 'furniture', label: '가구/인테리어',
+    parts: [
+      ['combo-desc', 'Describe the furniture store you usually go to, or the furniture in your home.'],
+      ['combo-habit', 'What do you usually consider when buying furniture or decorating your home?'],
+      ['combo-exp', 'Tell me about a memorable experience buying or arranging furniture.'],
+    ],
+  },
+  {
+    topic: 'festival', label: '축제',
+    parts: [
+      ['combo-desc', 'Describe a festival that you usually attend or would like to attend.'],
+      ['combo-habit', 'What do you usually do when you attend a festival?'],
+      ['combo-exp', 'Tell me about a memorable festival you attended.'],
+    ],
+  },
+  {
+    topic: 'fashion', label: '패션',
+    parts: [
+      ['combo-desc', 'Describe the style of clothes you usually wear.'],
+      ['combo-compare', 'How has your fashion style changed compared to a few years ago?'],
+      ['combo-exp', 'Tell me about a memorable shopping experience buying clothes.'],
+    ],
+  },
+  {
+    topic: 'holiday', label: '명절',
+    parts: [
+      ['combo-desc', 'Describe how your family usually spends a traditional holiday.'],
+      ['combo-compare', 'How do you celebrate holidays now compared to when you were a child?'],
+      ['combo-exp', 'Tell me about a memorable holiday experience with your family.'],
+    ],
+  },
+  {
+    topic: 'library', label: '도서관',
+    parts: [
+      ['combo-desc', 'Describe a library that you usually go to.'],
+      ['combo-habit', 'What do you usually do when you visit the library?'],
+      ['combo-exp', 'Tell me about a memorable experience you had at a library.'],
+    ],
+  },
+  {
     topic: 'tv-watching', label: 'TV 시청',
     parts: [
       ['combo-desc', 'Describe a TV show that you enjoy watching.'],
@@ -133,6 +181,14 @@ const COMBO_TOPICS: { topic: string; label: string; parts: [QuestionType, string
       ['combo-desc', 'Describe the social media platform you use most often.'],
       ['combo-habit', 'What do you usually post or do on social media?'],
       ['combo-exp', 'Tell me about a memorable post or interaction you had on social media.'],
+    ],
+  },
+  {
+    topic: 'phone-communication', label: '전화통화',
+    parts: [
+      ['combo-desc', 'Describe how you usually stay in touch with friends or family by phone.'],
+      ['combo-habit', 'What do you usually talk about when you call friends or family?'],
+      ['combo-exp', 'Tell me about a memorable phone conversation you had.'],
     ],
   },
   {
@@ -265,6 +321,14 @@ const COMBO_TOPICS: { topic: string; label: string; parts: [QuestionType, string
       ['combo-exp', 'Tell me about a memorable hiking experience you had.'],
     ],
   },
+  {
+    topic: 'health', label: '건강 관리',
+    parts: [
+      ['combo-desc', 'Describe what you usually do to stay healthy.'],
+      ['combo-compare', 'How have your health habits changed compared to a few years ago?'],
+      ['combo-exp', 'Tell me about a time you had to change a habit for your health.'],
+    ],
+  },
   // Part 4-4 — 휴가/출장/여행
   {
     topic: 'travel', label: '여행',
@@ -300,6 +364,8 @@ const ROLEPLAY_QUESTIONS: Question[] = [
     promptText: 'You need to borrow something from a neighbor or coworker. Call them, explain what you need and why, and ask if you can borrow it.' },
   { id: 'roleplay-reschedule', category: 'roleplay', type: 'roleplay', difficulty: [5, 6],
     promptText: "You have an appointment that you need to reschedule. Call and explain the situation, then arrange a new time." },
+  { id: 'roleplay-restaurant-reservation', category: 'roleplay', type: 'roleplay', difficulty: [5, 6],
+    promptText: 'You made a restaurant reservation, but you need to change the time or number of people. Call the restaurant, explain the situation, and arrange a new reservation.' },
 ]
 
 // --- 돌발 질문: 기본 ---
@@ -316,6 +382,8 @@ const UNEXPECTED_BASIC: Question[] = [
     promptText: 'Describe the typical weather in your region across the four seasons.' },
   { id: 'unexpected-social-issue', category: 'unexpected-social-issue', type: 'unexpected', difficulty: [3, 4, 5, 6],
     promptText: 'What is a social issue that has been discussed a lot recently in your country?' },
+  { id: 'unexpected-tradition', category: 'unexpected-tradition', type: 'unexpected', difficulty: [3, 4, 5, 6],
+    promptText: 'How have traditional customs or holidays changed in your country over time?' },
 ]
 
 // --- 돌발 질문: 고난도 (실제 시험 후반부 스타일 — 시사·의견 중심, 5~6단계 전용) ---
@@ -344,6 +412,10 @@ const UNEXPECTED_ADVANCED: Question[] = [
     promptText: 'Describe the housing situation in your country. Is it easy or difficult for people to find affordable housing?' },
   { id: 'unexpected-immigration', category: 'unexpected-immigration', type: 'unexpected', difficulty: [5, 6],
     promptText: "What is your opinion about immigration policy discussions in your country?" },
+  { id: 'unexpected-fashion-trends', category: 'unexpected-fashion-trends', type: 'unexpected', difficulty: [5, 6],
+    promptText: 'How have fashion trends changed in your country in recent years?' },
+  { id: 'unexpected-food-culture', category: 'unexpected-food-culture', type: 'unexpected', difficulty: [5, 6],
+    promptText: 'How has dining or food culture changed in your country recently, for example because of delivery apps?' },
 ]
 
 // --- 어드밴스 ---
@@ -394,6 +466,9 @@ const UNEXPECTED_LABELS: Record<string, string> = {
   'unexpected-work-life-balance': '돌발 · 워라밸',
   'unexpected-housing': '돌발 · 주거',
   'unexpected-immigration': '돌발 · 이민정책',
+  'unexpected-tradition': '돌발 · 전통문화',
+  'unexpected-fashion-trends': '돌발 · 패션 트렌드',
+  'unexpected-food-culture': '돌발 · 음식문화',
 }
 
 export const CATEGORY_LABELS: Record<string, string> = {

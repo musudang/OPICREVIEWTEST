@@ -98,6 +98,23 @@ button.recording {
   color: var(--text);
 }
 
+.badge-toggle {
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.badge-toggle-on {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--text-h);
+}
+
 .prompt-text {
   font-size: 22px;
   line-height: 1.5;

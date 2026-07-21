@@ -7,12 +7,14 @@ import { speak, stopSpeaking } from '../lib/tts'
 import { createAttempt, saveResponse, updateAttemptStatus, listResponsesByAttempt } from '../db'
 import { shuffle } from '../lib/shuffle'
 import { computeRuleBasedScore, type RuleBasedScore } from '../lib/scoring'
+import { startAmbientNoise, stopAmbientNoise, saveAmbientNoisePref } from '../lib/ambientNoise'
 
 interface SetupState {
   userName?: string
   categories?: string[]
   types?: QuestionType[]
   questionCount?: number
+  ambientNoise?: boolean
 }
 
 export default function PracticeSession() {
@@ -23,6 +25,7 @@ export default function PracticeSession() {
     categories = [],
     types = [],
     questionCount = 10,
+    ambientNoise: initialAmbientNoise = false,
   } = (location.state as SetupState) ?? {}
 
   const questions = useMemo(() => {
@@ -41,6 +44,7 @@ export default function PracticeSession() {
   const [ttsError, setTtsError] = useState<string | null>(null)
   const [finished, setFinished] = useState(false)
   const [score, setScore] = useState<RuleBasedScore | null>(null)
+  const [ambientNoiseOn, setAmbientNoiseOn] = useState(initialAmbientNoise)
   const attemptRef = useRef<Attempt | null>(null)
   const recorder = useRecorder()
 
@@ -58,9 +62,26 @@ export default function PracticeSession() {
     createAttempt(attempt)
     return () => {
       stopSpeaking()
+      stopAmbientNoise()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (ambientNoiseOn) {
+      startAmbientNoise()
+    } else {
+      stopAmbientNoise()
+    }
+  }, [ambientNoiseOn])
+
+  function toggleAmbientNoise() {
+    setAmbientNoiseOn((on) => {
+      const next = !on
+      saveAmbientNoisePref(next)
+      return next
+    })
+  }
 
   async function handlePlay() {
     setReplayCount((c) => c + 1)
@@ -119,6 +140,7 @@ export default function PracticeSession() {
 
   async function finishSession() {
     if (!attemptRef.current) return
+    stopAmbientNoise()
     await updateAttemptStatus(attemptRef.current.id, 'completed')
     const responses = await listResponsesByAttempt(attemptRef.current.id)
     setScore(computeRuleBasedScore(responses))
@@ -170,6 +192,13 @@ export default function PracticeSession() {
         <span className="badge">{index + 1} / {questions.length}</span>
         <span className="badge">{CATEGORY_LABELS[current.category] ?? current.category}</span>
         <span className="badge">{TYPE_LABELS[current.type]}</span>
+        <button
+          type="button"
+          className={`badge-toggle ${ambientNoiseOn ? 'badge-toggle-on' : ''}`}
+          onClick={toggleAmbientNoise}
+        >
+          배경 소음 {ambientNoiseOn ? 'ON' : 'OFF'}
+        </button>
       </div>
 
       <p className="prompt-text">{current.promptText}</p>
