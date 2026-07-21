@@ -284,6 +284,36 @@ button.recording {
   margin-bottom: 8px;
 }
 
+.question-list-item-selected {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.question-list-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.selection-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+
 .question-list-meta {
   display: flex;
   gap: 8px;
