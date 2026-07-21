@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { QUESTIONS, CATEGORY_LABELS, TYPE_LABELS } from '../data/questions'
-import type { QuestionType, Attempt, ResponseRecord } from '../types'
+import type { Question, QuestionType, Attempt, ResponseRecord } from '../types'
 import { useRecorder } from '../hooks/useRecorder'
 import { speak, stopSpeaking } from '../lib/tts'
 import { createAttempt, saveResponse, updateAttemptStatus, listResponsesByAttempt } from '../db'
@@ -15,6 +15,7 @@ interface SetupState {
   types?: QuestionType[]
   questionCount?: number
   youtubePopup?: boolean
+  questionIds?: string[]
 }
 
 export default function PracticeSession() {
@@ -26,9 +27,15 @@ export default function PracticeSession() {
     types = [],
     questionCount = 10,
     youtubePopup: initialYoutubePopup = false,
+    questionIds,
   } = (location.state as SetupState) ?? {}
 
   const questions = useMemo(() => {
+    if (questionIds && questionIds.length > 0) {
+      const byId = new Map(QUESTIONS.map((q) => [q.id, q]))
+      const picked = questionIds.map((id) => byId.get(id)).filter((q): q is Question => q != null)
+      if (picked.length > 0) return picked
+    }
     const filtered = QUESTIONS.filter(
       (q) =>
         (categories.length === 0 || categories.includes(q.category)) &&

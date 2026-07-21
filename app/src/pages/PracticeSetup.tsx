@@ -2,12 +2,13 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QUESTIONS, CATEGORY_LABELS, TYPE_LABELS } from '../data/questions'
 import type { QuestionType } from '../types'
+import { getSavedUserName, saveUserName } from '../lib/userName'
 
 const QUESTION_COUNT_OPTIONS = [5, 10]
 
 export default function PracticeSetup() {
   const navigate = useNavigate()
-  const [userName, setUserName] = useState('')
+  const [userName, setUserName] = useState(getSavedUserName)
   const [categories, setCategories] = useState<string[]>([])
   const [types, setTypes] = useState<QuestionType[]>([])
   const [questionCount, setQuestionCount] = useState(10)
@@ -35,8 +36,10 @@ export default function PracticeSetup() {
   }
 
   function handleStart() {
+    const trimmedName = userName.trim()
+    saveUserName(trimmedName)
     navigate('/practice/session', {
-      state: { userName: userName.trim(), categories, types, questionCount, youtubePopup },
+      state: { userName: trimmedName, categories, types, questionCount, youtubePopup },
     })
   }
 
